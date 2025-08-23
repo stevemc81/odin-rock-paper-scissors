@@ -21,18 +21,22 @@ function playGame() {
 
     function playRound(humanChoice, computerChoice) {
         console.log(`Computer chose: ${computerChoice}`);
+        humanChoice = humanChoice.toLowerCase();
+
+        if (humanChoice === computerChoice) {
+            console.log(`It's a tie! You both chose ${humanChoice}.`);
+            return;
+        }
+
         switch (humanChoice.toLowerCase()) {
             case "rock":
                 if (computerChoice === "paper") {
                     console.log("You lost! Rock loses to paper.");
                     computerScore++;
                     break;
-                } else if (computerChoice === "scissors") {
+                } else {
                     console.log("You won! Rock beats scissors.");
                     humanScore++;
-                    break;
-                } else {
-                    console.log("It's a tie! You both chose rock.");
                     break;
                 }
             case "paper":
@@ -40,12 +44,9 @@ function playGame() {
                     console.log("You won! Paper beats rock.");
                     humanScore++;
                     break;
-                } else if (computerChoice === "scissors") {
+                } else {
                     console.log("You lost! Paper loses to scissors.");
                     computerScore++;
-                    break;
-                } else {
-                    console.log("It's a tie! You both chose paper.");
                     break;
                 }
             case "scissors":
@@ -53,12 +54,9 @@ function playGame() {
                     console.log("You lost! Scissors loses to rock.");
                     computerScore++;
                     break;
-                } else if (computerChoice === "paper") {
+                } else {
                     console.log("You won! Scissors beats paper.");
                     humanScore++;
-                    break;
-                } else {
-                    console.log("It's a tie! You both chose scissors.");
                     break;
                 }
             default:
