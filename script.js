@@ -14,74 +14,89 @@ function getHumanChoice() {
     return humanChoice;
 }
 
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    rounds = 0;
+    buttons.forEach((button) => {
+        button.disabled = false;
+    });
+    result.textContent = "";
+    score.textContent = "";
+    winner.textContent = "";
+}
+
 let humanScore = 0;
 let computerScore = 0;
 let rounds = 0;
+const result = document.querySelector("#result");
+const score = document.querySelector("#score");
+const winner = document.querySelector("#winner");
 
 function playRound(humanChoice, computerChoice) {
-    const round = document.querySelector("#round");
-    const score = document.querySelector("#score");
-    const winner = document.querySelector("#winner");
-
-    console.log(`Computer chose: ${computerChoice}`);
     humanChoice = humanChoice.toLowerCase();
 
     if (humanChoice === computerChoice) {
-        round.textContent = `It's a tie! You both chose ${humanChoice}.`;
+        result.textContent = `It's a tie! You both chose ${humanChoice}.`;
         return;
     }
 
     switch (humanChoice.toLowerCase()) {
         case "rock":
             if (computerChoice === "paper") {
-                round.textContent = "You lost! Rock loses to paper.";
+                result.textContent = "You lost! Rock loses to paper.";
                 computerScore++;
                 break;
             } else {
-                round.textContent = "You won! Rock beats scissors.";
+                result.textContent = "You won! Rock beats scissors.";
                 humanScore++;
                 break;
             }
         case "paper":
             if (computerChoice === "rock") {
-                round.textContent = "You won! Paper beats rock.";
+                result.textContent = "You won! Paper beats rock.";
                 humanScore++;
                 break;
             } else {
-                round.textContent = "You lost! Paper loses to scissors.";
+                result.textContent = "You lost! Paper loses to scissors.";
                 computerScore++;
                 break;
             }
         case "scissors":
             if (computerChoice === "rock") {
-                round.textContent = "You lost! Scissors loses to rock.";
+                result.textContent = "You lost! Scissors loses to rock.";
                 computerScore++;
                 break;
             } else {
-                round.textContent = "You won! Scissors beats paper.";
+                result.textContent = "You won! Scissors beats paper.";
                 humanScore++;
                 break;
             }
         default:
-            round.textContent = "You didn't choose rock, paper or scissors :-(";
+            result.textContent = "You didn't choose rock, paper or scissors :-(";
     }
 
+    score.innerHTML = `<h3>Score</h3> Human ${humanScore} - ${computerScore} Computer`;
 
-    // while (rounds < 5) {
-    //     cpuChoice = getComputerChoice();
-    //     playRound(getHumanChoice(), cpuChoice);
-    //     rounds++;
-    // }
+    rounds++;
 
-    console.log(`The final score:
-        Human: ${humanScore}
-        Computer: ${computerScore}`);
-    if (humanScore > computerScore) {
-        console.log("Humans won! Quick, unplug Skynet while you still can.");
-    } else if (humanScore < computerScore) {
-        console.log("Hasta la vista, baby! The robots won this time.")
-    } else {
-        console.log("It was a draw this time.")
+    if (humanScore === 5 || computerScore === 5) {
+        const res = document.createElement("p");
+        if (humanScore > computerScore) {
+            res.textContent = "Humans won! Quick, unplug Skynet while you still can.";
+        } else {
+            res.textContent = "Hasta la vista, baby! The robots won this time.";
+        }
+        winner.appendChild(res);
+        buttons.forEach((button) => {
+            button.disabled = true;
+        });
+        const resetButton = document.createElement("button");
+        resetButton.textContent = "Reset game";
+        resetButton.addEventListener("click", () => {
+            resetGame();
+        });
+        winner.appendChild(resetButton);
     }
 }
 
